@@ -1,6 +1,10 @@
-edition_work_editions
-=====================
+All editions of a work
+======================
 
-Use OCLC linked data services to get all editions via the work id of an edition
+Use OCLC Linked Data services to get the OCLC numbers of all editions of a work via the
+[WorldCat work id](http://www.oclc.org/developer/develop/linked-data/worldcat-entities/worldcat-work-entity.en.en.html)
+linked to a particular edition's OCLC number.
 
-Experimental code - outcome of the ELAG 2014 workshop on OCLC web services
+Experimental code - outcome of the
+[ELAG 2014 Hackathon using OCLC services](http://elag2014.org/programme/elag-2014-bootcamps/bootcamps-s-meyer/).
+
