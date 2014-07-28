@@ -66,9 +66,8 @@ foreach my $oclc_number (246996241, 251028375)  {
 sub interpret_result {
   my $edition_ref = shift || croak "param missing\n";
 
-  my ($count, $nowork_count, $single_count, %multi_count, %bucket_count);
+  my ($count, $nowork_count, $single_count, %multi_count, %bucket_count, %multi_occurences);
   my %bucket_def = (3 => 5, 6 => 10, 11 => 50, 51 => 100, 101 => 9999);
-
   foreach my $oclc_number (sort {$a <=> $b} keys %$edition_ref) {
     my @editions = @{$$edition_ref{$oclc_number}};
     my $found = scalar(@editions);
@@ -94,14 +93,22 @@ sub interpret_result {
           $bucket_count{$from}++;
         }
       }
+      foreach my $edition (@editions) {
+        $multi_occurences{$edition}++;
+      }
     }
     $count++;
   }
 
-  print "$single_count oclc numbers which's work has only the current edition\n";
+  my $total_multiple = $SET_SIZE - ($single_count + $nowork_count);
+  my $total_occurences = scalar(keys %multi_occurences);
+
+  printf "%6d oclc numbers which's work has only the current edition\n", $single_count;
   foreach my $from (sort {$a <=> $b} keys %bucket_def) {
-    print $bucket_count{$from} . " oclc numbers with $from to $bucket_def{$from} editions\n"
+    printf "%6d oclc numbers with $from to $bucket_def{$from} editions\n", $bucket_count{$from};
   }
-  print "$nowork_count oclc numbers without a work id\n";
+  printf "%6d oclc numbers without a work id\n", $nowork_count;
+  printf "%6d oclc numbers (%.1f %%) occuring more than once for a work, with $total_occurences total occurences\n", $total_multiple, ($total_multiple/$SET_SIZE)*100;
+
   ##print "detailed results: " . Dumper \%multi_count;
 }
