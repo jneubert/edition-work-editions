@@ -17,7 +17,7 @@ use Readonly;
 Readonly my $TARGET_SIZE => 10000;
 Readonly my $ECONBIZ_OUTPUT => 'econbiz_oclc.json';
 Readonly my $TARGET_FN => 'econbiz_oclc_numbers_' . $TARGET_SIZE . '.lst';
-Readonly my $ALL_OCLC_FREQ_FN => 'all_econbiz_oclc_freq.json';
+Readonly my $ALL_ECONBIZ_OCLC_FREQ_FN => 'all_econbiz_oclc_freq.json';
 
 my $econbiz_output = read_file($ECONBIZ_OUTPUT);
 my $econbiz_json = decode_json($econbiz_output);
@@ -26,7 +26,7 @@ my $econbiz_json = decode_json($econbiz_output);
 my %all_oclc = @{$$econbiz_json{'facet_counts'}{'facet_fields'}{'identifier_oclc'}};
 
 # save file as json for further processing
-write_file($ALL_OCLC_FREQ_FN, encode_json(\%all_oclc));
+write_file($ALL_ECONBIZ_OCLC_FREQ_FN, encode_json(\%all_oclc));
 
 # set of all oclc numbers
 my  @all_oclc_numbers = keys(%all_oclc);
@@ -34,7 +34,6 @@ my  @all_oclc_numbers = keys(%all_oclc);
 # get and save the set of target oclc numbers
 my $target_ref = get_random_entries(\@all_oclc_numbers, $TARGET_SIZE);
 write_file($TARGET_FN, join("\n", @$target_ref));
-
 
 #################################################
 

@@ -7,17 +7,22 @@ use strict;
 use warnings;
 
 use Data::Dumper;
+use File::Slurp;
 use JSON;
 use Readonly;
 use REST::Client;
 
 Readonly my $EDITION_URL_BASE => 'http://www.worldcat.org/oclc/';
 Readonly my $WORK_URL_BASE => 'http://worldcat.org/entity/work/id/';
+Readonly my $SET_SIZE => 10000;
+Readonly my $OCLC_NUMBER_LIST_FN => 'econbiz_oclc_numbers_' . $SET_SIZE . '.lst';
+Readonly my $RESULT_FN => 'all_oclc_editions_' . $SET_SIZE . '.json';
 
 our $client = REST::Client->new();
 $client->addHeader( 'Accept', 'application/ld+json' );
 $client->setFollow(1);
 
+# OBSOLETE CODE BLOCK
 my $oclc_number;
 if (@ARGV) {
   $oclc_number = $ARGV[0];
@@ -26,9 +31,25 @@ if (@ARGV) {
   # http://www.econbiz.de/Record/microeconomics-and-behavior-frank-robert/10010339515
   $oclc_number='863381506';
 }
+# OBSOLETE CODE BLOCK (END)
 
-print Dumper get_edtions_via_work_for($oclc_number);
+# read the oclc numbers from file
+my @oclc_number_list = read_file($OCLC_NUMBER_LIST_FN);
 
+# iteratate over the numbers and store the result a hash, with
+# key is the source edition number and value is a reference to a list of all
+# editions of the work (if any)
+my %edition;
+foreach my $oclc_number (@oclc_number_list) {
+  chomp($oclc_number);
+  my $editions_ref = get_edtions_via_work_for($oclc_number);
+  $edition{$oclc_number} = $editions_ref;
+}
+
+write_file($RESULT_FN, encode_json \%edition);
+
+
+#################################
 
 sub get_edtions_via_work_for {
   my $oclc_number = shift || die "missing param\n";
@@ -41,6 +62,11 @@ sub get_edtions_via_work_for {
 
     # look up the work's editions
     if (my $works_ref = fetch_jsonld_property($work_uri, 'workExample')) {
+
+      # change single string value from fetch to array_ref
+      if (ref($works_ref) ne 'ARRAY') {
+        $works_ref = [ $works_ref ];
+      }
       
       # extract the OCLC number
       foreach my $uri (@$works_ref) {
@@ -58,6 +84,7 @@ sub fetch_jsonld_property {
 
   # look up the  data 
   $client->GET($resource);
+  return unless $client->responseCode() == 200;
   my $result_ref = decode_json $client->responseContent();
 
   # q&d json-ld parsing
