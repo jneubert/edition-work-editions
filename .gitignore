@@ -1,1 +1,4 @@
-*.json
+# don't check in the full econbiz dump file (all records with oclc numbers)
+econbiz_oclc.json
+# ignore preliminary test files
+*_10.*

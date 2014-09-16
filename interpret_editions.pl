@@ -13,7 +13,7 @@ use JSON;
 use Readonly;
 use REST::Client;
 
-Readonly my $SET_SIZE => 10000;
+Readonly my $SET_SIZE => 100000;
 Readonly my $OCLC_NUMBER_LIST_FN => 'econbiz_oclc_numbers_' . $SET_SIZE . '.lst';
 Readonly my $RESULT_FN => 'all_oclc_editions_' . $SET_SIZE . '.json';
 Readonly my $ECONBIZ_RESULT_FN => 'econbiz_editions_' . $SET_SIZE . '.json';
@@ -66,7 +66,7 @@ foreach my $oclc_number (246996241, 251028375)  {
 sub interpret_result {
   my $edition_ref = shift || croak "param missing\n";
 
-  my ($count, $nowork_count, $single_count, %multi_count, %bucket_count, %multi_occurences);
+  my ($count, $nowork_count, $single_count, $linkerror_count, %multi_count, %bucket_count, %multi_occurences);
   my %bucket_def = (3 => 5, 6 => 10, 11 => 50, 51 => 100, 101 => 9999);
   foreach my $oclc_number (sort {$a <=> $b} keys %$edition_ref) {
     my @editions = @{$$edition_ref{$oclc_number}};
@@ -75,6 +75,7 @@ sub interpret_result {
     # some work records don't link back to the actual edition
     if (scalar(@editions) gt 0 and !grep(/$oclc_number/, @editions)) {
       warn "$oclc_number not in list: " . Dumper \@editions;
+      $linkerror_count++;
     }
 
     if ($found eq 0) {
@@ -108,6 +109,7 @@ sub interpret_result {
     printf "%6d oclc numbers with $from to $bucket_def{$from} editions\n", $bucket_count{$from};
   }
   printf "%6d oclc numbers without a work id\n", $nowork_count;
+  printf "%6d missing backlinks to the oclc number\n", $linkerror_count;
   printf "%6d oclc numbers (%.1f %%) occuring more than once for a work, with $total_occurences total occurences\n", $total_multiple, ($total_multiple/$SET_SIZE)*100;
 
   ##print "detailed results: " . Dumper \%multi_count;

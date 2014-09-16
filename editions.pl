@@ -14,7 +14,7 @@ use REST::Client;
 
 Readonly my $EDITION_URL_BASE => 'http://www.worldcat.org/oclc/';
 Readonly my $WORK_URL_BASE => 'http://worldcat.org/entity/work/id/';
-Readonly my $SET_SIZE => 10000;
+Readonly my $SET_SIZE => 100000;
 Readonly my $OCLC_NUMBER_LIST_FN => 'econbiz_oclc_numbers_' . $SET_SIZE . '.lst';
 Readonly my $RESULT_FN => 'all_oclc_editions_' . $SET_SIZE . '.json';
 

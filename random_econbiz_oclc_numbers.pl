@@ -14,7 +14,7 @@ use JSON;
 use Readonly;
 
 # number of radom oclc numbers to select
-Readonly my $TARGET_SIZE => 10000;
+Readonly my $TARGET_SIZE => 100000;
 Readonly my $ECONBIZ_OUTPUT => 'econbiz_oclc.json';
 Readonly my $TARGET_FN => 'econbiz_oclc_numbers_' . $TARGET_SIZE . '.lst';
 Readonly my $ALL_ECONBIZ_OCLC_FREQ_FN => 'all_econbiz_oclc_freq.json';
