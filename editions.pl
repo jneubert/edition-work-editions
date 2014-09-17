@@ -6,6 +6,7 @@
 use strict;
 use warnings;
 
+use CHI;
 use Data::Dumper;
 use File::Slurp;
 use JSON;
@@ -17,6 +18,10 @@ Readonly my $WORK_URL_BASE => 'http://worldcat.org/entity/work/id/';
 Readonly my $SET_SIZE => 100000;
 Readonly my $OCLC_NUMBER_LIST_FN => 'econbiz_oclc_numbers_' . $SET_SIZE . '.lst';
 Readonly my $RESULT_FN => 'all_oclc_editions_' . $SET_SIZE . '.json';
+
+# there seems to be only a single datastore for caches,
+# therefore put all into one cache
+my $cache = CHI->new(driver => 'Memory', global => 1);
 
 our $client = REST::Client->new();
 $client->addHeader( 'Accept', 'application/ld+json' );
@@ -31,8 +36,8 @@ my @oclc_number_list = read_file($OCLC_NUMBER_LIST_FN);
 my %edition;
 foreach my $oclc_number (@oclc_number_list) {
   chomp($oclc_number);
-  my $editions_ref = get_edtions_via_work_for($oclc_number);
-  $edition{$oclc_number} = $editions_ref;
+  my $oclc_numbers_ref = get_edtions_via_work_for($oclc_number);
+  $edition{$oclc_number} = $oclc_numbers_ref;
 }
 
 write_file($RESULT_FN, encode_json \%edition);
@@ -44,27 +49,43 @@ sub get_edtions_via_work_for {
   my $oclc_number = shift || die "missing param\n";
   my $edition_uri =  $EDITION_URL_BASE . $oclc_number;
  
-  my @oclc_numbers;
+  my $oclc_numbers_ref;
+  my $work_uri;
   
   # look up the edition's work id 
-  if (my $work_uri = fetch_jsonld_property($edition_uri, 'exampleOfWork')) {
+  my $work_key = $cache->get($oclc_number);
+  if (!defined($work_key)) {
+    $work_uri = fetch_jsonld_property($edition_uri, 'exampleOfWork');
+    if ($work_uri) {
+      my @elements = split('/', $work_uri);
+      $work_key = 'w_' . $elements[-1];
+    }
+    $cache->set($oclc_number, $work_key, 'never');
+  }
 
+  if ($work_key) {
     # look up the work's editions
-    if (my $editions_ref = fetch_jsonld_property($work_uri, 'workExample')) {
+    $oclc_numbers_ref = $cache->get($work_key);
+    if (!defined($oclc_numbers_ref)) {
+      my $editions_ref = fetch_jsonld_property($work_uri, 'workExample');
+      if ($editions_ref) {
+        # change single string value from fetch to array_ref
+        if (ref($editions_ref) ne 'ARRAY') {
+          $editions_ref = [ $editions_ref ];
+        }
 
-      # change single string value from fetch to array_ref
-      if (ref($editions_ref) ne 'ARRAY') {
-        $editions_ref = [ $editions_ref ];
-      }
-      
-      # extract the OCLC number (last element of the edition uri)
-      foreach my $uri (@$editions_ref) {
-        my @elements = split('/', $uri);
-        push(@oclc_numbers, $elements[-1]);
+        # extract the OCLC number (last element of the edition uri)
+        foreach my $uri (@$editions_ref) {
+          my @elements = split('/', $uri);
+          my $other_oclc_number = $elements[-1];
+          push(@{$oclc_numbers_ref}, $other_oclc_number);
+          $cache->set($oclc_number, $work_key, 'never');
+        }
+        $cache->set($work_key, $oclc_numbers_ref, 'never');
       }
     }
   }
-  return \@oclc_numbers;
+  return $oclc_numbers_ref;
 }
 
 sub fetch_jsonld_property {
