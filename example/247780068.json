@@ -1,0 +1,155 @@
+{
+  "@graph" : [ {
+    "@id" : "http://experiment.worldcat.org/entity/work/data/14820164#Agent/intern_labour_office",
+    "schema:name" : "Intern. Labour Office",
+    "rdf:type" : {
+      "@id" : "j.0:Agent"
+    }
+  }, {
+    "@id" : "http://experiment.worldcat.org/entity/work/data/14820164#Place/geneva",
+    "schema:name" : "Geneva",
+    "rdf:type" : {
+      "@id" : "schema:Place"
+    }
+  }, {
+    "@id" : "http://id.loc.gov/vocabulary/countries/sz",
+    "dcterms:identifier" : "sz",
+    "rdf:type" : {
+      "@id" : "schema:Place"
+    }
+  }, {
+    "@id" : "http://viaf.org/viaf/5010846",
+    "schema:familyName" : "Oberai",
+    "schema:givenName" : "Amarjit S.",
+    "schema:name" : "Oberai, Amarjit S.",
+    "rdf:type" : {
+      "@id" : "schema:Person"
+    }
+  }, {
+    "@id" : "http://worldcat.org/isbn/9789221019268",
+    "schema:isbn" : [ "9789221019268", "9221019268" ],
+    "schema:sameAs" : [ {
+      "@id" : "urn:isbn:9789221019268"
+    }, {
+      "@id" : "urn:isbn:9221019268"
+    } ],
+    "rdf:type" : {
+      "@id" : "schema:ProductModel"
+    }
+  }, {
+    "@id" : "http://worldcat.org/isbn/9789221027737",
+    "schema:isbn" : [ "9789221027737", "9221027732" ],
+    "schema:sameAs" : [ {
+      "@id" : "urn:isbn:9789221027737"
+    }, {
+      "@id" : "urn:isbn:9221027732"
+    } ],
+    "rdf:type" : {
+      "@id" : "schema:ProductModel"
+    }
+  }, {
+    "@id" : "http://www.worldcat.org/oclc/247780068",
+    "library:oclcnum" : 247780068,
+    "placeOfPublication" : [ "http://experiment.worldcat.org/entity/work/data/14820164#Place/geneva", "http://id.loc.gov/vocabulary/countries/sz" ],
+    "creator" : "http://viaf.org/viaf/5010846",
+    "schema:datePublished" : "1978",
+    "exampleOfWork" : "http://worldcat.org/entity/work/id/14820164",
+    "schema:inLanguage" : "en",
+    "schema:name" : "Changes in the structure of employment with economic development",
+    "publisher" : "http://experiment.worldcat.org/entity/work/data/14820164#Agent/intern_labour_office",
+    "url" : "http://www.worldcat.org/title/-/oclc/247780068",
+    "workExample" : [ "http://worldcat.org/isbn/9789221019268", "http://worldcat.org/isbn/9789221027737" ],
+    "rdf:type" : {
+      "@id" : "schema:Book"
+    },
+    "sameAs" : "info:oclcnum/247780068"
+  }, {
+    "@id" : "http://www.worldcat.org/title/-/oclc/247780068",
+    "inDataset" : "http://purl.oclc.org/dataset/WorldCat",
+    "about" : "http://www.worldcat.org/oclc/247780068",
+    "rdf:type" : [ {
+      "@id" : "j.1:ContentTypeGenericResource"
+    }, {
+      "@id" : "j.1:InformationResource"
+    } ]
+  } ],
+  "@context" : {
+    "creator" : {
+      "@id" : "http://schema.org/creator",
+      "@type" : "@id"
+    },
+    "oclcnum" : {
+      "@id" : "http://purl.org/library/oclcnum",
+      "@type" : "@id"
+    },
+    "placeOfPublication" : {
+      "@id" : "http://purl.org/library/placeOfPublication",
+      "@type" : "@id"
+    },
+    "url" : {
+      "@id" : "http://schema.org/url",
+      "@type" : "@id"
+    },
+    "datePublished" : {
+      "@id" : "http://schema.org/datePublished",
+      "@type" : "@id"
+    },
+    "exampleOfWork" : {
+      "@id" : "http://schema.org/exampleOfWork",
+      "@type" : "@id"
+    },
+    "workExample" : {
+      "@id" : "http://schema.org/workExample",
+      "@type" : "@id"
+    },
+    "sameAs" : {
+      "@id" : "http://www.w3.org/2002/07/owl#sameAs",
+      "@type" : "@id"
+    },
+    "publisher" : {
+      "@id" : "http://schema.org/publisher",
+      "@type" : "@id"
+    },
+    "inLanguage" : {
+      "@id" : "http://schema.org/inLanguage",
+      "@type" : "@id"
+    },
+    "name" : {
+      "@id" : "http://schema.org/name",
+      "@type" : "@id"
+    },
+    "familyName" : {
+      "@id" : "http://schema.org/familyName",
+      "@type" : "@id"
+    },
+    "givenName" : {
+      "@id" : "http://schema.org/givenName",
+      "@type" : "@id"
+    },
+    "about" : {
+      "@id" : "http://schema.org/about",
+      "@type" : "@id"
+    },
+    "inDataset" : {
+      "@id" : "http://rdfs.org/ns/void#inDataset",
+      "@type" : "@id"
+    },
+    "isbn" : {
+      "@id" : "http://schema.org/isbn",
+      "@type" : "@id"
+    },
+    "identifier" : {
+      "@id" : "http://purl.org/dc/terms/identifier",
+      "@type" : "@id"
+    },
+    "schema" : "http://schema.org/",
+    "xsd" : "http://www.w3.org/2001/XMLSchema#",
+    "owl" : "http://www.w3.org/2002/07/owl#",
+    "j.1" : "http://www.w3.org/2006/gen/ont#",
+    "library" : "http://purl.org/library/",
+    "void" : "http://rdfs.org/ns/void#",
+    "j.0" : "http://xmlns.com/foaf/0.1/",
+    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "dcterms" : "http://purl.org/dc/terms/"
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "@graph" : [ {
+    "@id" : "http://experiment.worldcat.org/entity/work/data/14820164#Organization/bureau_international_du_travail",
+    "schema:name" : "Bureau international du travail.",
+    "rdf:type" : {
+      "@id" : "schema:Organization"
+    }
+  }, {
+    "@id" : "http://experiment.worldcat.org/entity/work/data/14820164#Organization/international_labour_office",
+    "schema:name" : [ "International Labour Office", "International Labour Office." ],
+    "rdf:type" : {
+      "@id" : "schema:Organization"
+    }
+  }, {
+    "@id" : "http://experiment.worldcat.org/entity/work/data/14820164#Person/oberai_amarjit_singh",
+    "schema:name" : "Oberai, Amarjit Singh.",
+    "rdf:type" : {
+      "@id" : "schema:Person"
+    }
+  }, {
+    "@id" : "http://experiment.worldcat.org/entity/work/data/14820164#Topic/desarrollo_economico",
+    "schema:name" : "Desarrollo económico.",
+    "rdf:type" : {
+      "@id" : "schema:Topic"
+    }
+  }, {
+    "@id" : "http://experiment.worldcat.org/entity/work/data/14820164#Topic/economic_development",
+    "schema:name" : "Economic development.",
+    "rdf:type" : {
+      "@id" : "schema:Topic"
+    }
+  }, {
+    "@id" : "http://experiment.worldcat.org/entity/work/data/14820164#Topic/lavoro_domanda_e_offerta",
+    "schema:name" : "Lavoro - Domanda e offerta.",
+    "rdf:type" : {
+      "@id" : "schema:Topic"
+    }
+  }, {
+    "@id" : "http://experiment.worldcat.org/entity/work/data/14820164#Topic/marche_du_travail_pays_en_voie_de_developpement",
+    "schema:name" : "Marché du travail Pays en voie de développement.",
+    "rdf:type" : {
+      "@id" : "schema:Topic"
+    }
+  }, {
+    "@id" : "http://experiment.worldcat.org/entity/work/data/14820164#Topic/sviluppo_economico",
+    "schema:name" : "Sviluppo economico.",
+    "rdf:type" : {
+      "@id" : "schema:Topic"
+    }
+  }, {
+    "@id" : "http://experiment.worldcat.org/entity/work/data/14820164#Topic/trabajo_oferta",
+    "schema:name" : "Trabajo Oferta.",
+    "rdf:type" : {
+      "@id" : "schema:Topic"
+    }
+  }, {
+    "@id" : "http://experiment.worldcat.org/entity/work/data/14820164#Topic/treball_paisos_desenvolupats",
+    "schema:name" : "Treball Països desenvolupats.",
+    "rdf:type" : {
+      "@id" : "schema:Topic"
+    }
+  }, {
+    "@id" : "http://experiment.worldcat.org/entity/work/data/14820164#Topic/underdeveloped_areas_labor_supply",
+    "schema:name" : "Underdeveloped areas , Labor supply.",
+    "rdf:type" : {
+      "@id" : "schema:Topic"
+    }
+  }, {
+    "@id" : "http://experiment.worldcat.org/entity/work/data/14820164.jsonld",
+    "inDataset" : "http://purl.oclc.org/dataset/WorldCat/Works",
+    "about" : "http://worldcat.org/entity/work/id/14820164"
+  }, {
+    "@id" : "http://worldcat.org/entity/work/id/14820164",
+    "about" : [ "http://experiment.worldcat.org/entity/work/data/14820164#Topic/marche_du_travail_pays_en_voie_de_developpement", "http://id.loc.gov/authorities/subjects/sh85040804", "http://id.worldcat.org/fast/990165", "http://experiment.worldcat.org/entity/work/data/14820164#Topic/treball_paisos_desenvolupats", "http://experiment.worldcat.org/entity/work/data/14820164#Topic/lavoro_domanda_e_offerta", "http://experiment.worldcat.org/entity/work/data/14820164#Topic/underdeveloped_areas_labor_supply", "http://id.worldcat.org/fast/1242969", "http://id.loc.gov/authorities/subjects/sh2009128386", "http://experiment.worldcat.org/entity/work/data/14820164#Topic/economic_development", "http://experiment.worldcat.org/entity/work/data/14820164#Topic/desarrollo_economico", "http://id.worldcat.org/fast/901785", "http://experiment.worldcat.org/entity/work/data/14820164#Topic/sviluppo_economico", "http://experiment.worldcat.org/entity/work/data/14820164#Topic/trabajo_oferta" ],
+    "author" : [ "http://id.loc.gov/authorities/names/n79102027", "http://viaf.org/viaf/5010846" ],
+    "contributor" : "http://experiment.worldcat.org/entity/work/data/14820164#Organization/international_labour_office",
+    "creator" : [ "http://viaf.org/viaf/281474861", "http://id.loc.gov/authorities/names/n79102027", "http://viaf.org/viaf/5010846", "http://experiment.worldcat.org/entity/work/data/14820164#Person/oberai_amarjit_singh" ],
+    "editor" : "http://experiment.worldcat.org/entity/work/data/14820164#Organization/bureau_international_du_travail",
+    "schema:name" : [ "Changes in the structure of employment with economic development", {
+      "@language" : "en",
+      "@value" : "Changes in the structure of employment with economic development"
+    }, {
+      "@language" : "en",
+      "@value" : "Changes in the structure of employment with economic development /"
+    }, "Changes in the structure of employment with economic development /", "Changes in the structure of employment with economic development." ],
+    "workExample" : [ "http://www.worldcat.org/oclc/609785684", "http://www.worldcat.org/oclc/784152303", "http://www.worldcat.org/oclc/797167669", "http://www.worldcat.org/oclc/4563017", "http://www.worldcat.org/oclc/245743486", "http://www.worldcat.org/oclc/730127832", "http://www.worldcat.org/oclc/247780068", "http://www.worldcat.org/oclc/716102743", "http://www.worldcat.org/oclc/732345392", "http://www.worldcat.org/oclc/466428327", "http://www.worldcat.org/oclc/716519725", "http://www.worldcat.org/oclc/472872207", "http://www.worldcat.org/oclc/760439428", "http://www.worldcat.org/oclc/254548387", "http://www.worldcat.org/oclc/705976718", "http://www.worldcat.org/oclc/781155896", "http://www.worldcat.org/oclc/8215485", "http://www.worldcat.org/oclc/803773951" ],
+    "rdf:type" : [ {
+      "@id" : "schema:Book"
+    }, {
+      "@id" : "schema:CreativeWork"
+    } ]
+  } ],
+  "@context" : {
+    "name" : {
+      "@id" : "http://schema.org/name",
+      "@type" : "@id"
+    },
+    "about" : {
+      "@id" : "http://schema.org/about",
+      "@type" : "@id"
+    },
+    "creator" : {
+      "@id" : "http://schema.org/creator",
+      "@type" : "@id"
+    },
+    "workExample" : {
+      "@id" : "http://schema.org/workExample",
+      "@type" : "@id"
+    },
+    "author" : {
+      "@id" : "http://schema.org/author",
+      "@type" : "@id"
+    },
+    "editor" : {
+      "@id" : "http://schema.org/editor",
+      "@type" : "@id"
+    },
+    "contributor" : {
+      "@id" : "http://schema.org/contributor",
+      "@type" : "@id"
+    },
+    "inDataset" : {
+      "@id" : "http://rdfs.org/ns/void#inDataset",
+      "@type" : "@id"
+    },
+    "schema" : "http://schema.org/",
+    "void" : "http://rdfs.org/ns/void#",
+    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  }
+}
