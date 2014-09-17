@@ -9,6 +9,7 @@ use warnings;
 use CHI;
 use Data::Dumper;
 use File::Slurp;
+use File::Tee qw(tee);
 use JSON;
 use Readonly;
 use REST::Client;
@@ -16,8 +17,11 @@ use REST::Client;
 Readonly my $EDITION_URL_BASE => 'http://www.worldcat.org/oclc/';
 Readonly my $WORK_URL_BASE => 'http://worldcat.org/entity/work/id/';
 Readonly my $SET_SIZE => 100000;
+Readonly my $LOG_STEP_SIZE => 1000;
 Readonly my $OCLC_NUMBER_LIST_FN => 'econbiz_oclc_numbers_' . $SET_SIZE . '.lst';
 Readonly my $RESULT_FN => 'all_oclc_editions_' . $SET_SIZE . '.json';
+
+tee(STDOUT, '>', "run_$SET_SIZE.log");
 
 # there seems to be only a single datastore for caches,
 # therefore put all into one cache
@@ -34,13 +38,20 @@ my @oclc_number_list = read_file($OCLC_NUMBER_LIST_FN);
 # key is the source edition number and value is a reference to a list of all
 # editions of the work (if any)
 my %edition;
+my $count;
+print localtime() . " start\n";
 foreach my $oclc_number (@oclc_number_list) {
   chomp($oclc_number);
   my $oclc_numbers_ref = get_edtions_via_work_for($oclc_number);
   $edition{$oclc_number} = $oclc_numbers_ref;
+  $count++;
+  if ($count % $LOG_STEP_SIZE == 0) {
+    print localtime() . " $count checked\n";
+  }
 }
 
 write_file($RESULT_FN, encode_json \%edition);
+print localtime() . " finish\n";
 
 
 #################################
