@@ -22,17 +22,6 @@ our $client = REST::Client->new();
 $client->addHeader( 'Accept', 'application/ld+json' );
 $client->setFollow(1);
 
-# OBSOLETE CODE BLOCK
-my $oclc_number;
-if (@ARGV) {
-  $oclc_number = $ARGV[0];
-} else {
-  # example from
-  # http://www.econbiz.de/Record/microeconomics-and-behavior-frank-robert/10010339515
-  $oclc_number='863381506';
-}
-# OBSOLETE CODE BLOCK (END)
-
 # read the oclc numbers from file
 my @oclc_number_list = read_file($OCLC_NUMBER_LIST_FN);
 
@@ -61,15 +50,15 @@ sub get_edtions_via_work_for {
   if (my $work_uri = fetch_jsonld_property($edition_uri, 'exampleOfWork')) {
 
     # look up the work's editions
-    if (my $works_ref = fetch_jsonld_property($work_uri, 'workExample')) {
+    if (my $editions_ref = fetch_jsonld_property($work_uri, 'workExample')) {
 
       # change single string value from fetch to array_ref
-      if (ref($works_ref) ne 'ARRAY') {
-        $works_ref = [ $works_ref ];
+      if (ref($editions_ref) ne 'ARRAY') {
+        $editions_ref = [ $editions_ref ];
       }
       
-      # extract the OCLC number
-      foreach my $uri (@$works_ref) {
+      # extract the OCLC number (last element of the edition uri)
+      foreach my $uri (@$editions_ref) {
         my @elements = split('/', $uri);
         push(@oclc_numbers, $elements[-1]);
       }

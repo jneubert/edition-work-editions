@@ -9,6 +9,7 @@ use warnings;
 use Carp;
 use Data::Dumper;
 use File::Slurp;
+use File::Tee qw(tee);
 use JSON;
 use Readonly;
 use REST::Client;
@@ -18,6 +19,10 @@ Readonly my $OCLC_NUMBER_LIST_FN => 'econbiz_oclc_numbers_' . $SET_SIZE . '.lst'
 Readonly my $RESULT_FN => 'all_oclc_editions_' . $SET_SIZE . '.json';
 Readonly my $ECONBIZ_RESULT_FN => 'econbiz_editions_' . $SET_SIZE . '.json';
 Readonly my $ALL_ECONBIZ_OCLC_FREQ_FN => 'all_econbiz_oclc_freq.json';
+
+# open output files
+tee(STDOUT, '>', "result_$SET_SIZE.txt");
+tee(STDERR, '>', "error_$SET_SIZE.txt");
 
 $Data::Dumper::Sortkeys = sub {
   no warnings 'numeric';
@@ -60,14 +65,22 @@ foreach my $oclc_number (246996241, 251028375)  {
 #  print "\n", Dumper $oclc_number, $$edition_ref{$oclc_number}, $$edition_econbiz_ref{$oclc_number};
 }
 
-
 #############################
 
 sub interpret_result {
   my $edition_ref = shift || croak "param missing\n";
 
-  my ($count, $nowork_count, $single_count, $linkerror_count, %multi_count, %bucket_count, %multi_occurences);
-  my %bucket_def = (3 => 5, 6 => 10, 11 => 50, 51 => 100, 101 => 9999);
+  # initialize counters and buckets for counting
+  my $count = 0;
+  my $nowork_count = 0;
+  my $single_count = 0;
+  my $linkerror_count = 0;
+  my (%multi_count, %bucket_count, %multi_occurences);
+  my %bucket_def = (2 => 2, 3 => 5, 6 => 10, 11 => 50, 51 => 100, 101 => 9999);
+  foreach my $from (keys %bucket_def) {
+    $bucket_count{$from} = 0;
+  }
+
   foreach my $oclc_number (sort {$a <=> $b} keys %$edition_ref) {
     my @editions = @{$$edition_ref{$oclc_number}};
     my $found = scalar(@editions);
@@ -106,11 +119,16 @@ sub interpret_result {
 
   printf "%6d oclc numbers which's work has only the current edition\n", $single_count;
   foreach my $from (sort {$a <=> $b} keys %bucket_def) {
-    printf "%6d oclc numbers with $from to $bucket_def{$from} editions\n", $bucket_count{$from};
+    if ($from eq $bucket_def{$from}) {
+      printf "%6d oclc numbers with $from editions\n", $bucket_count{$from};
+    }
+    else {
+      printf "%6d oclc numbers with $from to $bucket_def{$from} editions\n", $bucket_count{$from};
+    }
   }
   printf "%6d oclc numbers without a work id\n", $nowork_count;
   printf "%6d missing backlinks to the oclc number\n", $linkerror_count;
-  printf "%6d oclc numbers (%.1f %%) occuring more than once for a work, with $total_occurences total occurences\n", $total_multiple, ($total_multiple/$SET_SIZE)*100;
+  printf "%6d oclc numbers (%.1f %%) point to works with multiple editions, with $total_occurences total edtions\n", $total_multiple, ($total_multiple/$SET_SIZE)*100;
 
   ##print "detailed results: " . Dumper \%multi_count;
 }

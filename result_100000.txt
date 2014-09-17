@@ -2,6 +2,7 @@
 Results from 100000 example oclc numbers re. all oclc numbers
 
  37428 oclc numbers which's work has only the current edition
+ 14100 oclc numbers with 2 editions
  23824 oclc numbers with 3 to 5 editions
  14784 oclc numbers with 6 to 10 editions
   8747 oclc numbers with 11 to 50 editions
@@ -9,11 +10,12 @@ Results from 100000 example oclc numbers re. all oclc numbers
    212 oclc numbers with 101 to 9999 editions
    420 oclc numbers without a work id
    127 missing backlinks to the oclc number
- 62152 oclc numbers (62.2 %) occuring more than once for a work, with 446945 total occurences
+ 62152 oclc numbers (62.2 %) point to works with multiple editions, with 446945 total edtions
 
 Results from 100000 example oclc numbers re. 1260337 oclc numbers in Econis/EconBiz
 
  92880 oclc numbers which's work has only the current edition
+  5050 oclc numbers with 2 editions
   1361 oclc numbers with 3 to 5 editions
    174 oclc numbers with 6 to 10 editions
     91 oclc numbers with 11 to 50 editions
@@ -21,4 +23,4 @@ Results from 100000 example oclc numbers re. 1260337 oclc numbers in Econis/Econ
     11 oclc numbers with 101 to 9999 editions
    420 oclc numbers without a work id
      0 missing backlinks to the oclc number
-  6700 oclc numbers (6.7 %) occuring more than once for a work, with 16011 total occurences
+  6700 oclc numbers (6.7 %) point to works with multiple editions, with 16011 total edtions
