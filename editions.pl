@@ -60,7 +60,7 @@ sub get_edtions_via_work_for {
   my $oclc_number = shift || die "missing param\n";
   my $edition_uri =  $EDITION_URL_BASE . $oclc_number;
  
-  my $oclc_numbers_ref;
+  my $oclc_numbers_ref = [];
   my $work_uri;
   
   # look up the edition's work id 
@@ -105,7 +105,11 @@ sub fetch_jsonld_property {
 
   # look up the  data 
   $client->GET($resource);
-  return unless $client->responseCode() == 200;
+  if ($client->responseCode() != 200) {
+    print localtime() . " Could not look up $resource (repsonse code " . $client->responseCode() . ")\n";
+    return;
+  }
+
   my $result_ref = decode_json $client->responseContent();
 
   # q&d json-ld parsing
