@@ -6,7 +6,6 @@
 use strict;
 use warnings;
 
-use CHI;
 use Data::Dumper;
 use File::Slurp;
 use File::Tee qw(tee);
@@ -20,14 +19,15 @@ Readonly my $SET_SIZE => 100000;
 Readonly my $LOG_STEP_SIZE => 1000;
 Readonly my $OCLC_NUMBER_LIST_FN => 'econbiz_oclc_numbers_' . $SET_SIZE . '.lst';
 Readonly my $RESULT_FN => 'all_oclc_editions_' . $SET_SIZE . '.json';
+Readonly my $RESULT_EDITION_FN => 'edition_work_' . $SET_SIZE . '.json';
+Readonly my $RESULT_WORK_FN => 'work_editions_' . $SET_SIZE . '.json';
 
 tee(STDOUT, '>', "run_$SET_SIZE.log");
 
-# there seems to be only a single datastore for caches,
-# therefore put all into one cache
-my $cache = CHI->new(driver => 'Memory', global => 1);
+my (%edition_work, %work_editions);
 
-our $client = REST::Client->new();
+# configure REST client
+my $client = REST::Client->new();
 $client->addHeader( 'Accept', 'application/ld+json' );
 $client->setFollow(1);
 
@@ -47,10 +47,14 @@ foreach my $oclc_number (@oclc_number_list) {
   $count++;
   if ($count % $LOG_STEP_SIZE == 0) {
     print localtime() . " $count checked\n";
+    # save intermediate results
+    save_results();
   }
 }
 
-write_file($RESULT_FN, encode_json \%edition);
+# save final results
+save_results();
+
 print localtime() . " finish\n";
 
 
@@ -61,23 +65,21 @@ sub get_edtions_via_work_for {
   my $edition_uri =  $EDITION_URL_BASE . $oclc_number;
  
   my $oclc_numbers_ref = [];
-  my $work_uri;
+  my ($work_id, $work_uri);
   
   # look up the edition's work id 
-  my $work_key = $cache->get($oclc_number);
-  if (!defined($work_key)) {
+  if (!defined($edition_work{$oclc_number})) {
     $work_uri = fetch_jsonld_property($edition_uri, 'exampleOfWork');
     if ($work_uri) {
       my @elements = split('/', $work_uri);
-      $work_key = 'w_' . $elements[-1];
+      $work_id = $elements[-1];
+      $edition_work{$oclc_number} = $work_id;
     }
-    $cache->set($oclc_number, $work_key, 'never');
   }
 
-  if ($work_key) {
+  if ($work_id) {
     # look up the work's editions
-    $oclc_numbers_ref = $cache->get($work_key);
-    if (!defined($oclc_numbers_ref)) {
+    if (!defined($work_editions{$work_id})) {
       my $editions_ref = fetch_jsonld_property($work_uri, 'workExample');
       if ($editions_ref) {
         # change single string value from fetch to array_ref
@@ -90,9 +92,11 @@ sub get_edtions_via_work_for {
           my @elements = split('/', $uri);
           my $other_oclc_number = $elements[-1];
           push(@{$oclc_numbers_ref}, $other_oclc_number);
-          $cache->set($oclc_number, $work_key, 'never');
+
+          # cache for future lookups
+          $edition_work{$other_oclc_number} = $work_id;
         }
-        $cache->set($work_key, $oclc_numbers_ref, 'never');
+        $work_editions{$work_id} = $oclc_numbers_ref;
       }
     }
   }
@@ -107,6 +111,7 @@ sub fetch_jsonld_property {
   $client->GET($resource);
   if ($client->responseCode() != 200) {
     print localtime() . " Could not look up $resource (repsonse code " . $client->responseCode() . ")\n";
+    # TODO collect ids for later repetition of lookup
     return;
   }
 
@@ -124,3 +129,12 @@ sub fetch_jsonld_property {
   return $result;
 }
 
+sub save_results {
+
+  # save result used for evaluation
+  write_file($RESULT_FN, encode_json \%edition);
+
+  # save additional result hashes (currently used only for caching)
+  write_file($RESULT_EDITION_FN, encode_json \%edition_work);
+  write_file($RESULT_WORK_FN, encode_json \%work_editions);
+}
