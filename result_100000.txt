@@ -1,26 +1,26 @@
 
 Results from 100000 example oclc numbers re. all oclc numbers
 
- 37428 oclc numbers which's work has only the current edition
- 14100 oclc numbers with 2 editions
- 23824 oclc numbers with 3 to 5 editions
- 14784 oclc numbers with 6 to 10 editions
-  8747 oclc numbers with 11 to 50 editions
-   485 oclc numbers with 51 to 100 editions
-   212 oclc numbers with 101 to 9999 editions
-   420 oclc numbers without a work id
-   127 missing backlinks to the oclc number
- 62152 oclc numbers (62.2 %) point to works with multiple editions, with 446945 total edtions
+ 37847 oclc numbers which's work has only the current edition
+ 13734 oclc numbers with 2 editions
+ 23697 oclc numbers with 3 to 5 editions
+ 14663 oclc numbers with 6 to 10 editions
+  8563 oclc numbers with 11 to 50 editions
+   443 oclc numbers with 51 to 100 editions
+   173 oclc numbers with 101 to 9999 editions
+   880 oclc numbers without a work id
+   922 missing backlinks to the oclc number
+ 61273 oclc numbers (61.3 %) point to works with multiple editions, with 444412 total edtions
 
 Results from 100000 example oclc numbers re. 1260337 oclc numbers in Econis/EconBiz
 
- 92880 oclc numbers which's work has only the current edition
-  5050 oclc numbers with 2 editions
-  1361 oclc numbers with 3 to 5 editions
-   174 oclc numbers with 6 to 10 editions
-    91 oclc numbers with 11 to 50 editions
-    13 oclc numbers with 51 to 100 editions
-    11 oclc numbers with 101 to 9999 editions
-   420 oclc numbers without a work id
+ 92879 oclc numbers which's work has only the current edition
+  4826 oclc numbers with 2 editions
+  1225 oclc numbers with 3 to 5 editions
+   137 oclc numbers with 6 to 10 editions
+    50 oclc numbers with 11 to 50 editions
+     2 oclc numbers with 51 to 100 editions
+     1 oclc numbers with 101 to 9999 editions
+   880 oclc numbers without a work id
      0 missing backlinks to the oclc number
-  6700 oclc numbers (6.7 %) point to works with multiple editions, with 16011 total edtions
+  6241 oclc numbers (6.2 %) point to works with multiple editions, with 15886 total edtions
