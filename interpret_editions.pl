@@ -38,6 +38,7 @@ my $edition_econbiz_ref = {};
 my $all_econbiz_ref = decode_json read_file($ALL_ECONBIZ_OCLC_FREQ_FN);
 
 # map result to oclc numbers existing in econis/econbiz
+my $econbiz_instance_count = 0;
 foreach my $oclc_number (keys %$edition_ref) {
   $$edition_econbiz_ref{$oclc_number} = [];
   my @editions = @{$$edition_ref{$oclc_number}};
@@ -52,6 +53,9 @@ foreach my $oclc_number (keys %$edition_ref) {
     next unless defined $$all_econbiz_ref{$edition};
     push(@{$$edition_econbiz_ref{$oclc_number}}, $edition);
   }
+
+  # sometimes multiple econbiz instances per oclc number exist
+  $econbiz_instance_count += $$all_econbiz_ref{$oclc_number};
 }
 write_file($ECONBIZ_RESULT_FN, encode_json $edition_econbiz_ref);
 
@@ -59,6 +63,8 @@ my $econbiz_count = scalar(keys %$all_econbiz_ref);
 
 print "\nResults from $SET_SIZE example oclc numbers re. $econbiz_count oclc numbers in Econis/EconBiz\n\n";
 interpret_result($edition_econbiz_ref);
+
+print "\n\n" . ($econbiz_instance_count / $SET_SIZE) . " econbiz instances per oclc number\n\n";
 
 # debugging
 foreach my $oclc_number (246996241, 251028375)  {

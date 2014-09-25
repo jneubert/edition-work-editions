@@ -24,3 +24,7 @@ Results from 100000 example oclc numbers re. 1260337 oclc numbers in Econis/Econ
    880 oclc numbers without a work id
      0 missing backlinks to the oclc number
   6241 oclc numbers (6.2 %) point to works with multiple editions, with 15886 total edtions
+
+
+1.01172 econbiz instances per oclc number
+
