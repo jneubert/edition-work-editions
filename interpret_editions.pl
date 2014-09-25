@@ -19,6 +19,7 @@ Readonly my $OCLC_NUMBER_LIST_FN => 'econbiz_oclc_numbers_' . $SET_SIZE . '.lst'
 Readonly my $RESULT_FN => 'all_oclc_editions_' . $SET_SIZE . '.json';
 Readonly my $ECONBIZ_RESULT_FN => 'econbiz_editions_' . $SET_SIZE . '.json';
 Readonly my $ALL_ECONBIZ_OCLC_FREQ_FN => 'all_econbiz_oclc_freq.json';
+Readonly my $LARGE_LIST_SIZE => 50;
 
 # open output files
 tee(STDOUT, '>', "result_$SET_SIZE.txt");
@@ -39,6 +40,7 @@ my $all_econbiz_ref = decode_json read_file($ALL_ECONBIZ_OCLC_FREQ_FN);
 
 # map result to oclc numbers existing in econis/econbiz
 my $econbiz_instance_count = 0;
+my $large_ref;
 foreach my $oclc_number (keys %$edition_ref) {
   $$edition_econbiz_ref{$oclc_number} = [];
   my @editions = @{$$edition_ref{$oclc_number}};
@@ -54,6 +56,11 @@ foreach my $oclc_number (keys %$edition_ref) {
     push(@{$$edition_econbiz_ref{$oclc_number}}, $edition);
   }
 
+  # log very large sets
+  if (scalar(@{$$edition_econbiz_ref{$oclc_number}} > $LARGE_LIST_SIZE)) {
+    $$large_ref{$oclc_number} = scalar(@{$$edition_econbiz_ref{$oclc_number}});
+  }
+
   # sometimes multiple econbiz instances per oclc number exist
   $econbiz_instance_count += $$all_econbiz_ref{$oclc_number};
 }
@@ -65,6 +72,8 @@ print "\nResults from $SET_SIZE example oclc numbers re. $econbiz_count oclc num
 interpret_result($edition_econbiz_ref);
 
 print "\n\n" . ($econbiz_instance_count / $SET_SIZE) . " econbiz instances per oclc number\n\n";
+
+print "oclc numbers with particular large sets of other editions: ", Dumper $large_ref;
 
 # debugging
 foreach my $oclc_number (246996241, 251028375)  {

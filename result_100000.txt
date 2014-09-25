@@ -28,3 +28,8 @@ Results from 100000 example oclc numbers re. 1260337 oclc numbers in Econis/Econ
 
 1.01172 econbiz instances per oclc number
 
+oclc numbers with particular large sets of other editions: $VAR1 = {
+          '255328552' => 138,
+          '648125090' => 51,
+          '648854237' => 57
+        };
